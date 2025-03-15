@@ -30,24 +30,26 @@ h = 0.01
 time_end = 10  
 
 fig, ax = plt.subplots(figsize=(8, 5))
-plt.subplots_adjust(left=0.25, bottom=0.4)
+plt.subplots_adjust(left=0.25, bottom=0.5)
 ax.set_xlabel('Time [s]')
 ax.set_ylabel('Current [A]')
-ax.set_title('Forward Euler RL Circuit')
+ax.set_title(' RL Circuit')
 ax.set_xlim(0, time_end)  
 ax.set_ylim(0, 25)  
 line, = ax.plot([], [], lw=2, color='blue', label="Current")
 dot, = ax.plot([], [], 'ro', markersize=8)  
 
-ax_L = plt.axes([0.25, 0.25, 0.65, 0.03])
-ax_R = plt.axes([0.25, 0.2, 0.65, 0.03])
-ax_T = plt.axes([0.25, 0.15, 0.65, 0.03])
-ax_alpha = plt.axes([0.25, 0.1, 0.65, 0.03])
+ax_L = plt.axes([0.25, 0.3, 0.65, 0.03])
+ax_R = plt.axes([0.25, 0.25, 0.65, 0.03])
+ax_T = plt.axes([0.25, 0.2, 0.65, 0.03])
+ax_alpha = plt.axes([0.25, 0.15, 0.65, 0.03])
+ax_h = plt.axes([0.25, 0.1, 0.65, 0.03])  
 
 L_slider = Slider(ax_L, 'L (Inductance)', 0.1, 5, valinit=L)
 R_slider = Slider(ax_R, 'R (Resistance)', 0.1, 10, valinit=R)
 T_slider = Slider(ax_T, 'T (Time Period)', 0.1, 5, valinit=T)
 alpha_slider = Slider(ax_alpha, 'Alpha (Duty Cycle)', 0, 1, valinit=alpha)
+h_slider = Slider(ax_h, 'h (Step Size)', 0.001, 0.05, valinit=h)  
 
 # Store animation globally
 ani = None
@@ -61,6 +63,7 @@ def start_animation(event):
     R = R_slider.val
     T = T_slider.val
     alpha = alpha_slider.val
+    h = h_slider.val  
 
     # Get new simulation data
     t_vals, i_vals = forward_euler(T, R, L, alpha, h, time_end)
@@ -94,4 +97,5 @@ start_button.on_clicked(start_animation)
 
 ax.legend()
 plt.show()
+
 
